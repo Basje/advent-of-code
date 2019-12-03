@@ -21,17 +21,20 @@ namespace AdventOfCode_2019
             }
 
             var inputs = File.ReadAllLines(fileLocation);
-            var sum = 0;
+            var firstSum = 0;
+            var secondSum = 0;
 
             foreach (var input in inputs)
             {
                 if (int.TryParse(input, out int mass))
                 {
-                    sum += FuelCounterUpper.CalculateForMass(mass);
+                    firstSum += FuelCounterUpper.CalculateForMass(mass);
+                    secondSum += FuelCounterUpper.ReCalculateForMass(mass);
                 }
             }
 
-            Console.WriteLine($"Total fuel requirement: {sum}");
+            Console.WriteLine($"Total fuel requirement: {firstSum}");
+            Console.WriteLine($"Total fuel requirement 2: {secondSum}");
         }
     }
 }
