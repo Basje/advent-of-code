@@ -6,12 +6,4 @@
     <RootNamespace>AdventOfCode_2019</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Day-01\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.12.0" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,9 @@
+using AdventOfCode_2019.Day_01;
 using NUnit.Framework;
 
 namespace UnitTests
 {
-    public class Tests
+    public class Day01Tests
     {
         [SetUp]
         public void Setup()
@@ -10,9 +11,12 @@ namespace UnitTests
         }
 
         [Test]
-        public void Test1()
+        public void TextExampleInput()
         {
-            Assert.Pass();
+            Assert.AreEqual(FuelCounterUpper.CalculateForMass(12), 2);
+            Assert.AreEqual(FuelCounterUpper.CalculateForMass(14), 2);
+            Assert.AreEqual(FuelCounterUpper.CalculateForMass(1969), 654);
+            Assert.AreEqual(FuelCounterUpper.CalculateForMass(100756), 33583);
         }
     }
 }
