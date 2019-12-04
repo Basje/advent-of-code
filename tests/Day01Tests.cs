@@ -11,21 +11,33 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestReCalculation()
+        public void TestNaiveCalculation()
         {
-            Assert.AreEqual(2, FuelCounterUpper.ReCalculateForMass(12));
-            Assert.AreEqual(2, FuelCounterUpper.ReCalculateForMass(14));
-            Assert.AreEqual(966, FuelCounterUpper.ReCalculateForMass(1969));
-            Assert.AreEqual(50346, FuelCounterUpper.ReCalculateForMass(100756));
+            Assert.AreEqual(2, FuelCounterUpper.NaiveCalculateForMass(12));
+            Assert.AreEqual(2, FuelCounterUpper.NaiveCalculateForMass(14));
+            Assert.AreEqual(654, FuelCounterUpper.NaiveCalculateForMass(1969));
+            Assert.AreEqual(33583, FuelCounterUpper.NaiveCalculateForMass(100756));
         }
 
         [Test]
-        public void TestSimpleCalculation()
+        public void TestNaiveCalculationSum()
         {
-            Assert.AreEqual(2, FuelCounterUpper.CalculateForMass(12));
-            Assert.AreEqual(2, FuelCounterUpper.CalculateForMass(14));
-            Assert.AreEqual(654, FuelCounterUpper.CalculateForMass(1969));
-            Assert.AreEqual(33583, FuelCounterUpper.CalculateForMass(100756));
+            Assert.AreEqual(34241, FuelCounterUpper.NaiveCalculateForMass(new int[] { 12, 14, 1969, 100756 }));
+        }
+
+        [Test]
+        public void TestProperCalculation()
+        {
+            Assert.AreEqual(2, FuelCounterUpper.ProperCalculateForMass(12));
+            Assert.AreEqual(2, FuelCounterUpper.ProperCalculateForMass(14));
+            Assert.AreEqual(966, FuelCounterUpper.ProperCalculateForMass(1969));
+            Assert.AreEqual(50346, FuelCounterUpper.ProperCalculateForMass(100756));
+        }
+
+        [Test]
+        public void TestProperCalculationSum()
+        {
+            Assert.AreEqual(51316, FuelCounterUpper.ProperCalculateForMass(new int[] { 12, 14, 1969, 100756 }));
         }
     }
 }
