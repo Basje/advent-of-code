@@ -8,7 +8,7 @@ namespace AdventOfCode_2019.Day_01
     {
         public static int NaiveCalculateForMass(int mass)
         {
-            return (int)Math.Round(mass / 3m, 0, MidpointRounding.ToNegativeInfinity) - 2;
+            return (int)Math.Floor(mass / 3m) - 2;
         }
 
         public static int NaiveCalculateForMass(IEnumerable<int> masses)
