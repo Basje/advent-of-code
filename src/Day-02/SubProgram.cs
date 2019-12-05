@@ -9,9 +9,14 @@ namespace AdventOfCode_2019.Day_02
         {
             ShowHeader();
 
-            // TODO: call Day 2 business logic
+            var program = IntcodeProgram.FromString(intcodeProgram);
 
-            ShowResults();
+            program.Replace(1, 12);
+            program.Replace(2, 2);
+
+            var result = program.Run();
+
+            ShowResult(result);
         }
 
         private static void ShowHeader()
@@ -22,9 +27,9 @@ namespace AdventOfCode_2019.Day_02
             Console.WriteLine();
         }
 
-        private static void ShowResults()
+        private static void ShowResult(int result)
         {
-            Console.WriteLine($"No solution implemented, so nothing to show here.");
+            Console.WriteLine($"Result: {result}");
         }
     }
 }
