@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode_2019.Day_02
 {
@@ -12,21 +11,12 @@ namespace AdventOfCode_2019.Day_02
         private Opcodes Opcode = Opcodes.Unknown;
         private int Result = 0;
 
-        private IntcodeProgram(List<int> intCodes)
+        public IntcodeProgram(List<int> intCodes)
         {
-            IntCodes = intCodes;
+            IntCodes = new List<int>(intCodes);
         }
 
         private List<int> IntCodes { get; }
-
-        public static IntcodeProgram FromString(string intCodes)
-        {
-            if (string.IsNullOrWhiteSpace(intCodes)) throw new ArgumentNullException(nameof(intCodes));
-
-            var codes = intCodes.Split(',').Select(code => int.Parse(code)).ToList();
-
-            return new IntcodeProgram(codes);
-        }
 
         public bool Replace(int position, int number)
         {

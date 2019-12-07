@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AdventOfCode_2019.Day_01
 {
-    internal static class SubProgram
+    internal static class Puzzle
     {
-        internal static void Run(IEnumerable<int> masses)
+        internal static void SolveWith(IEnumerable<int> masses)
         {
             ShowHeader();
 

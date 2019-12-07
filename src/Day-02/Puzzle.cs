@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace AdventOfCode_2019.Day_02
 {
-    internal static class SubProgram
+    internal static class Puzzle
     {
-        internal static void Run(string intcodeProgram)
+        internal static void SolveWith(List<int> input)
         {
             ShowHeader();
 
-            var program = IntcodeProgram.FromString(intcodeProgram);
+            var program = new IntcodeProgram(input);
 
             program.Replace(1, 12);
             program.Replace(2, 2);
@@ -23,7 +23,7 @@ namespace AdventOfCode_2019.Day_02
             {
                 for (noun = 0; noun < 100; noun++)
                 {
-                    program = IntcodeProgram.FromString(intcodeProgram);
+                    program = new IntcodeProgram(input);
 
                     program.Replace(1, noun);
                     program.Replace(2, verb);
