@@ -1,4 +1,4 @@
-# Advent of code
+# Advent of Code
 
 My attempts at solving the puzzles of [Advent of Code](https://adventofcode.com/2019/).
 
