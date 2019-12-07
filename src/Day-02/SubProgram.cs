@@ -14,9 +14,26 @@ namespace AdventOfCode_2019.Day_02
             program.Replace(1, 12);
             program.Replace(2, 2);
 
-            var result = program.Run();
+            var firstHalfResult = program.Run();
 
-            ShowResult(result);
+            int verb;
+            int noun = -1;
+
+            for (verb = 0; verb < 100; verb++)
+            {
+                for (noun = 0; noun < 100; noun++)
+                {
+                    program = IntcodeProgram.FromString(intcodeProgram);
+
+                    program.Replace(1, noun);
+                    program.Replace(2, verb);
+
+                    if (program.Run() == 19690720) goto Result;
+                }
+            }
+
+            Result:
+            ShowResult(firstHalfResult, verb, noun);
         }
 
         private static void ShowHeader()
@@ -27,9 +44,11 @@ namespace AdventOfCode_2019.Day_02
             Console.WriteLine();
         }
 
-        private static void ShowResult(int result)
+        private static void ShowResult(int firstHalfResult, int verb, int noun)
         {
-            Console.WriteLine($"Result: {result}");
+            Console.WriteLine($"1202: {firstHalfResult}");
+            Console.WriteLine($"Verb: {verb}");
+            Console.WriteLine($"Noun: {noun}");
         }
     }
 }
