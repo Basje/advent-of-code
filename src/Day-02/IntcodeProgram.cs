@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode_2019.Day_02
 {
@@ -12,29 +11,16 @@ namespace AdventOfCode_2019.Day_02
         private Opcodes Opcode = Opcodes.Unknown;
         private int Result = 0;
 
-        private IntcodeProgram(List<int> intCodes)
+        public IntcodeProgram(List<int> intCodes)
         {
-            IntCodes = intCodes;
+            Memory = new Memory(intCodes);
         }
 
-        private List<int> IntCodes { get; }
+        private Memory Memory { get; }
 
-        public static IntcodeProgram FromString(string intCodes)
+        public void Replace(int position, int number)
         {
-            if (string.IsNullOrWhiteSpace(intCodes)) throw new ArgumentNullException(nameof(intCodes));
-
-            var codes = intCodes.Split(',').Select(code => int.Parse(code)).ToList();
-
-            return new IntcodeProgram(codes);
-        }
-
-        public bool Replace(int position, int number)
-        {
-            if (position >= IntCodes.Count) return false;
-
-            IntCodes[position] = number;
-
-            return true;
+            Memory.SetAddress(position, number);
         }
 
         public int Run()
@@ -46,19 +32,19 @@ namespace AdventOfCode_2019.Day_02
                 DoOperation(NextInstruction());
             }
 
-            Result = IntCodes[0];
+            Result = Memory.GetAddress(0);
 
             return Result;
         }
 
-        private void DoOperation(List<int> instruction)
+        private void DoOperation(IList<int> instruction)
         {
             Opcode = (Opcodes)instruction[0];
 
             if (Opcode == Opcodes.EndProgram) return;
 
-            var leftArgument = IntCodes[instruction[1]];
-            var rightArgument = IntCodes[instruction[2]];
+            var leftArgument = Memory.GetAddress(instruction[1]);
+            var rightArgument = Memory.GetAddress(instruction[2]);
             var storageIndex = instruction[3];
 
             var instructionResult = Opcode switch
@@ -70,18 +56,16 @@ namespace AdventOfCode_2019.Day_02
                 _ => throw new Exception($"Unknown opcode: {instruction[0]}"),
             };
 
-            IntCodes[storageIndex] = instructionResult;
+            Memory.SetAddress(storageIndex, instructionResult);
         }
 
-        private List<int> NextInstruction()
+        private IList<int> NextInstruction()
         {
             var startLocation = Index * INSTRUCTION_SIZE;
-            var instructionSize = Math.Min(IntCodes.Count - startLocation, INSTRUCTION_SIZE);
-            var instruction = IntCodes.GetRange(startLocation, instructionSize);
 
             Index++;
 
-            return instruction;
+            return Memory.GetAddressRange(startLocation, INSTRUCTION_SIZE);
         }
     }
 }
