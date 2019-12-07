@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace AdventOfCode_2019
 {
@@ -13,6 +13,7 @@ namespace AdventOfCode_2019
 
             Day_01.Puzzle.SolveWith(InputProvider.Day1Input);
             Day_02.Puzzle.SolveWith(InputProvider.Day2Input);
+            Day_03.Puzzle.SolveWith(new List<string>());
         }
     }
 }
