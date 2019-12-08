@@ -13,7 +13,7 @@ namespace AdventOfCode_2019
 
             Day_01.Puzzle.SolveWith(InputProvider.Day1Input);
             Day_02.Puzzle.SolveWith(InputProvider.Day2Input);
-            Day_03.Puzzle.SolveWith(new List<string>());
+            Day_03.Puzzle.SolveWith(InputProvider.Day3Input);
         }
     }
 }
