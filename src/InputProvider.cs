@@ -8,9 +8,11 @@ namespace AdventOfCode_2019
     {
         private const string DAY01_INPUT_LOCATION = @"Day-01\input.txt";
         private const string DAY02_INPUT_LOCATION = @"Day-02\input.txt";
+        private const string DAY03_INPUT_LOCATION = @"Day-03\input.txt";
 
         internal static List<int> Day1Input { get => GetLinesFrom(DAY01_INPUT_LOCATION).ToIntegers(); }
         internal static List<int> Day2Input { get => GetFirstLineFrom(DAY02_INPUT_LOCATION).Split(',').ToIntegers(); }
+        internal static List<List<string>> Day3Input { get => GetLinesFrom(DAY03_INPUT_LOCATION).Select(line => new List<string>(line.Split(","))).ToList(); }
 
         private static string BuildFullPath(string relativePath)
         {
