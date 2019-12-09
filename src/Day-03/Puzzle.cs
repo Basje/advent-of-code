@@ -10,20 +10,17 @@ namespace AdventOfCode_2019.Day_03
         {
             ShowHeader();
 
-            var firstPath = input[0];
-            var secondPath = input[1];
+            var redWirePath = input[0];
+            var blueWirePath = input[1];
 
-            var firstWire = new Wire(firstPath.Select(direction => Direction.FromString(direction)).ToList());
-            var secondWire = new Wire(secondPath.Select(direction => Direction.FromString(direction)).ToList());
+            var redWire = new Wire(redWirePath.ToDirections());
+            var blueWire = new Wire(blueWirePath.ToDirections());
 
-            var intersections = firstWire.FindIntersectionsWith(secondWire).Distinct().ToList();
+            var circuit = new CircuitBoard(redWire, blueWire);
+            var part1Answer = circuit.FindNearestManhattanDistanceIntersection();
+            var part2Answer = circuit.FindShortestIntersectionPath();
 
-            var origin = new Coordinate(0, 0);
-            intersections.Remove(origin);
-
-            var nearestIntersectionDistance = intersections.Select(coordinate => origin.CalculateManhattanDistanceTo(coordinate)).Min();
-
-            ShowResult(nearestIntersectionDistance);
+            ShowResult(part1Answer, part2Answer);
         }
 
         private static void ShowHeader()
@@ -34,9 +31,15 @@ namespace AdventOfCode_2019.Day_03
             Console.WriteLine();
         }
 
-        private static void ShowResult(int distance)
+        private static void ShowResult(int distance, int pathLength)
         {
-            Console.WriteLine($"Distance to nearest intersection is {distance}");
+            Console.WriteLine($"Manhattan distance to nearest intersection is {distance}");
+            Console.WriteLine($"Shortest intersection path is {pathLength}");
+        }
+
+        private static IEnumerable<Direction> ToDirections(this IEnumerable<string> path)
+        {
+            return path.Select(step => Direction.FromString(step));
         }
     }
 }

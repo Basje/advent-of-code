@@ -7,20 +7,25 @@ namespace AdventOfCode_2019.Day_03
     {
         private readonly List<Direction> Directions = new List<Direction>();
 
-        public Wire(IList<Direction> directions)
+        public Wire(IEnumerable<Direction> directions)
         {
             Directions.AddRange(directions);
         }
 
-        public IReadOnlyList<Coordinate> FindIntersectionsWith(Wire wire)
+        public IEnumerable<Coordinate> FindIntersectionsWith(Wire otherWire)
         {
             var theseCoordinates = ToCoordinates();
-            var thoseCoordinates = wire.ToCoordinates();
+            var thoseCoordinates = otherWire.ToCoordinates();
 
             return theseCoordinates.Intersect(thoseCoordinates).ToList();
         }
 
-        public IReadOnlyList<Coordinate> ToCoordinates()
+        public int GetPathLengthToCoordinate(Coordinate location)
+        {
+            return ToCoordinates().ToList().IndexOf(location);
+        }
+
+        public IEnumerable<Coordinate> ToCoordinates()
         {
             var coordinates = new List<Coordinate>();
             Coordinate endOfWire;
