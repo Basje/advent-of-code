@@ -7,4 +7,4 @@ I will be using this opportunity to play with a .NET Core 3.1 Console applicatio
 ## Solutions by friends
 
 [Wesley](https://github.com/WesleyKlop/advent-of-code-2019) (TypeScript)  
-[Jason](https://github.com/WesleyKlop/advent-of-code-2019) (JavaScript)
+[Jason](https://github.com/nojas01/advent-of-code-2019) (JavaScript)
