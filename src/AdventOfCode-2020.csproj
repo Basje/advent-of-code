@@ -6,4 +6,10 @@
     <RootNamespace>AdventOfCode_2020</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="input\01-1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
