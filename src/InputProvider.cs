@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AdventOfCode_2020
 {
-    public class InputProvider<T> where T : struct
+    public class InputProvider<T>
     {
         public InputProvider(int day, int part)
         {

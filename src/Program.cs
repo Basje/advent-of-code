@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode_2020
 {
@@ -7,6 +8,7 @@ namespace AdventOfCode_2020
         private static void Main(string[] args)
         {
             SolveDay01();
+            SolveDay02();
         }
 
         private static void SolveDay01()
@@ -47,6 +49,37 @@ namespace AdventOfCode_2020
                     }
                 }
             }
+        }
+
+        private static void SolveDay02()
+        {
+            var inputProvider = new InputProvider<string>(2, 1);
+            var inputs = inputProvider.GetInputs();
+            var regex = new Regex(@"^(\d+)-(\d+) (\w): (\w+)$");
+            var correctPasswordCount = 0;
+
+            foreach (var input in inputs)
+            {
+                var matches = regex.Match(input);
+
+                if (!matches.Success)
+                {
+                    continue;
+                }
+
+                var minumum = (int)Convert.ChangeType(matches.Groups[1].Value, typeof(int));
+                var maximum = (int)Convert.ChangeType(matches.Groups[2].Value, typeof(int));
+                var character = matches.Groups[3].Value;
+                var password = matches.Groups[4].Value;
+                var occurences = Regex.Matches(password, character).Count;
+
+                if (minumum <= occurences && occurences <= maximum)
+                {
+                    correctPasswordCount++;
+                }
+            }
+
+            Console.WriteLine($"Day 02 part 1: {correctPasswordCount}");
         }
     }
 }
