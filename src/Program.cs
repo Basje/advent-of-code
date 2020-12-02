@@ -56,7 +56,8 @@ namespace AdventOfCode_2020
             var inputProvider = new InputProvider<string>(2, 1);
             var inputs = inputProvider.GetInputs();
             var regex = new Regex(@"^(\d+)-(\d+) (\w): (\w+)$");
-            var correctPasswordCount = 0;
+            var correctSledRentalPlacePasswordCount = 0;
+            var correctTobogganCasPasswordCount = 0;
 
             foreach (var input in inputs)
             {
@@ -75,11 +76,29 @@ namespace AdventOfCode_2020
 
                 if (minumum <= occurences && occurences <= maximum)
                 {
-                    correctPasswordCount++;
+                    correctSledRentalPlacePasswordCount++;
+                }
+
+                var positionalOccurences = 0;
+
+                if (password[minumum - 1].ToString() == character)
+                {
+                    positionalOccurences++;
+                }
+
+                if (password[maximum - 1].ToString() == character)
+                {
+                    positionalOccurences++;
+                }
+
+                if (positionalOccurences == 1)
+                {
+                    correctTobogganCasPasswordCount++;
                 }
             }
 
-            Console.WriteLine($"Day 02 part 1: {correctPasswordCount}");
+            Console.WriteLine($"Day 02 part 1: {correctSledRentalPlacePasswordCount}");
+            Console.WriteLine($"Day 02 part 2: {correctTobogganCasPasswordCount}");
         }
     }
 }
