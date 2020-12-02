@@ -6,6 +6,11 @@ namespace AdventOfCode_2020
     {
         private static void Main(string[] args)
         {
+            SolveDay01();
+        }
+
+        private static void SolveDay01()
+        {
             var inputProvider = new InputProvider<int>(1, 1);
             var inputs = inputProvider.GetInputs();
 
