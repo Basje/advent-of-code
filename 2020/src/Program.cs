@@ -124,7 +124,7 @@ namespace AdventOfCode_2020
             var inputProvider = new InputProvider<string>(3, 1);
             var inputs = inputProvider.GetInputs();
 
-            var multiplication = 1;
+            long multiplication = 1;
 
             var treeCount = CountTrees(inputs, 1, 1);
             multiplication *= treeCount;
