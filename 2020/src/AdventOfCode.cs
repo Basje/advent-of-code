@@ -10,7 +10,8 @@ namespace AdventOfCode_2020
     [Subcommand(
         typeof(Day01.Solution),
         typeof(Day02.Solution),
-        typeof(Day03.Solution)
+        typeof(Day03.Solution),
+        typeof(Day04.Solution)
     )]
     internal class AdventOfCode : Puzzle
     {
