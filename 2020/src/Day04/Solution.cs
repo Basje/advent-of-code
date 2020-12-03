@@ -6,7 +6,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace AdventOfCode_2020.Day04
 {
-    [Command("day04")]
+    [Command("day-4", Description = "?")]
     public class Solution : Puzzle
     {
         public Solution(CommandLineApplication app) : base(app)
