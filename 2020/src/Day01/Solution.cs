@@ -83,8 +83,9 @@ namespace AdventOfCode_2020.Day01
             WriteLine();
 
             WriteHeaderLine("Day 1; part 2");
-            WriteVerboseLine($"{secondResult[0]} + {secondResult[1]} * {secondResult[2]} = {secondResult[0] + secondResult[1] + secondResult[1]}");
-            WriteSuccessLine($"{secondResult[0]} * {secondResult[1]} * {secondResult[2]} = {secondResult[0] * secondResult[1] * secondResult[1]}");
+            WriteVerboseLine($"{secondResult[0]} + {secondResult[1]} * {secondResult[2]} = {secondResult[0] + secondResult[1] + secondResult[2]}");
+            WriteSuccessLine($"{secondResult[0]} * {secondResult[1]} * {secondResult[2]} = {secondResult[0] * secondResult[1] * secondResult[2]}");
+
             return Task.FromResult(0);
         }
     }
