@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode_2020
 {
-    internal class Program
+    internal class AdventOfCode
     {
         private static int CountTrees(IList<string> map, int stepRight, int stepDown)
         {
@@ -24,8 +24,8 @@ namespace AdventOfCode_2020
 
         private static void Main(string[] args)
         {
-            //SolveDay01();
-            //SolveDay02();
+            SolveDay01();
+            SolveDay02();
             SolveDay03();
         }
 
