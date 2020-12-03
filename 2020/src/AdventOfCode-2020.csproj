@@ -4,6 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>AdventOfCode_2020</RootNamespace>
+    <AssemblyName>aoc</AssemblyName>
+    <Nullable>enable</Nullable>
+    <Authors>Basje</Authors>
+    <Company />
+    <PackageId>Advent of Code 2020</PackageId>
+    <Product>Advent of Code 2020</Product>
   </PropertyGroup>
 
   <ItemGroup>
