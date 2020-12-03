@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace AdventOfCode_2020
+namespace AdventOfCode_2020.Day03
 {
     public static class ExtensionMethods
     {
