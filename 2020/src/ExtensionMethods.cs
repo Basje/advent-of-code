@@ -8,7 +8,6 @@ namespace AdventOfCode_2020
     {
         public static bool IsTree(this IList<string> map, int x, int y)
         {
-            const char OPEN = '.';
             const char TREE = '#';
 
             if (map is null)
