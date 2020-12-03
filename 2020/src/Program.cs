@@ -7,8 +7,9 @@ namespace AdventOfCode_2020
     {
         private static void Main(string[] args)
         {
-            SolveDay01();
-            SolveDay02();
+            //SolveDay01();
+            //SolveDay02();
+            SolveDay03();
         }
 
         private static void SolveDay01()
@@ -99,6 +100,24 @@ namespace AdventOfCode_2020
 
             Console.WriteLine($"Day 02 part 1: {correctSledRentalPlacePasswordCount}");
             Console.WriteLine($"Day 02 part 2: {correctTobogganCasPasswordCount}");
+        }
+
+        private static void SolveDay03()
+        {
+            var inputProvider = new InputProvider<string>(3, 1);
+            var inputs = inputProvider.GetInputs();
+            var mapHeight = inputs.Count;
+            var treeCount = 0;
+
+            for (int x = 0, y = 0; y < mapHeight; x += 3, y++)
+            {
+                if (inputs.IsTree(x, y))
+                {
+                    treeCount++;
+                }
+            }
+
+            Console.WriteLine($"Day 03 part 1: {treeCount}");
         }
     }
 }
