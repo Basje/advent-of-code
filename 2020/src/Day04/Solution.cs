@@ -16,11 +16,16 @@ namespace AdventOfCode_2020.Day04
         {
             var inputProvider = new InputProvider<string>(4, 1);
             var inputs = inputProvider.GetInputs();
-
-            var validPassportCount = inputs.CountValidPassports();
+            var naiveValidPassportCount = inputs.CountValidPassportsNaively();
 
             WriteHeaderLine("Day 4; part 1");
-            WriteSuccessLine($"{validPassportCount} passports are valid");
+            WriteSuccessLine($"{naiveValidPassportCount} passports are valid");
+            WriteLine();
+
+            var properValidPassportCount = inputs.CountValidPassportsProperly();
+
+            WriteHeaderLine("Day 4; part 2");
+            WriteSuccessLine($"{properValidPassportCount} passports are valid");
 
             return Task.FromResult(0);
         }
