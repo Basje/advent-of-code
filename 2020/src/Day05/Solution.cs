@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +28,6 @@ namespace AdventOfCode_2020.Day05
             WriteSuccessLine($"Highest seat ID is {highestSeatId}");
             WriteLine();
 
-            var orderedSeatIds = seatIds.OrderBy(seatId => seatId);
             var lowestSeatId = seatIds.Min();
             var availableSeatIds = Enumerable.Range(lowestSeatId, highestSeatId - lowestSeatId + 1).ToList();
             var freeSeatId = availableSeatIds.Except(seatIds).Single();

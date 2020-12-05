@@ -1,8 +1,8 @@
-﻿using McMaster.Extensions.CommandLineUtils;
-
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using McMaster.Extensions.CommandLineUtils;
 
 namespace AdventOfCode_2020
 {
