@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -6,6 +7,8 @@ namespace AdventOfCode_2020.Day04
 {
     public static class ExtensionMethods
     {
+        public static readonly string[] EyeColors = new string[] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
+
         public static int CountValidPassportsNaively(this IList<string> input)
         {
             return input
@@ -71,8 +74,7 @@ namespace AdventOfCode_2020.Day04
 
         private static bool IsValidEyeColor(this string data)
         {
-            var allowValues = new List<string> { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
-            return allowValues.Contains(data);
+            return EyeColors.Contains(data);
         }
 
         private static bool IsValidHairColor(this string data)
