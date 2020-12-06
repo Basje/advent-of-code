@@ -11,7 +11,8 @@ namespace AdventOfCode_2020
         typeof(Day02.Solution),
         typeof(Day03.Solution),
         typeof(Day04.Solution),
-        typeof(Day05.Solution)
+        typeof(Day05.Solution),
+        typeof(Day06.Solution)
     )]
     internal class AdventOfCode : Puzzle
     {
