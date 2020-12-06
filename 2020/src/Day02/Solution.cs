@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 using McMaster.Extensions.CommandLineUtils;
@@ -14,7 +13,7 @@ namespace AdventOfCode_2020.Day02
         {
         }
 
-        public override Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken cancellationToken)
+        protected override Task<int> Solve()
         {
             var inputProvider = new InputProvider<string>(2, 1);
             var inputs = inputProvider.GetInputs();

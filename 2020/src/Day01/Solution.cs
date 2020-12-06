@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using McMaster.Extensions.CommandLineUtils;
@@ -66,7 +65,7 @@ namespace AdventOfCode_2020.Day01
             return Array.Empty<int>();
         }
 
-        public override Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken cancellationToken)
+        protected override Task<int> Solve()
         {
             const int YEAR = 2020;
 

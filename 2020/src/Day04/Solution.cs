@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -12,7 +11,7 @@ namespace AdventOfCode_2020.Day04
         {
         }
 
-        public override Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken cancellationToken)
+        protected override Task<int> Solve()
         {
             var inputProvider = new InputProvider<string>(4, 1);
             var inputs = inputProvider.GetInputs();

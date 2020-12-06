@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 using McMaster.Extensions.CommandLineUtils;
@@ -20,9 +19,9 @@ namespace AdventOfCode_2020
         {
         }
 
-        public override Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken cancellationToken)
+        protected override Task<int> Solve()
         {
-            app.ShowHint();
+            App.ShowHint();
             return Task.FromResult(0);
         }
 

@@ -17,10 +17,26 @@ namespace AdventOfCode_2020
 
         protected CommandLineApplication App { get; }
 
-        [Option("-v|--verbose")]
+        [Option("-1|--part1", Description = "Run first part of the solution")]
+        protected bool RunPart1 { get; private set; }
+
+        [Option("-2|--part2", Description = "Run second part of the solution")]
+        protected bool RunPart2 { get; private set; }
+
+        [Option("-v|--verbose", Description = "Show extra output")]
         protected bool Verbose { get; private set; }
 
-        public abstract Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken cancellationToken);
+        public virtual Task<int> OnExecuteAsync(CommandLineApplication app, CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                return Task.FromResult(0);
+            }
+
+            return Solve();
+        }
+
+        protected abstract Task<int> Solve();
 
         protected void Write(string message)
         {
