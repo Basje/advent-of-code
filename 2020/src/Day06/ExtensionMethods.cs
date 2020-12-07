@@ -5,7 +5,7 @@ namespace AdventOfCode_2020.Day06
 {
     public static class ExtensionMethods
     {
-        public static IEnumerable<char> alphabet = "abcdefghijklmnopqrstuvwxyz";
+        public static readonly IEnumerable<char> alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         public static IList<int> CountUnanimousAnswerPerGroup(this IList<string> input)
         {
@@ -17,12 +17,11 @@ namespace AdventOfCode_2020.Day06
         public static int CountUnanimousAnswerPerGroup(this string input)
         {
             var unanimousAnswers = alphabet;
-            var dataPerPerson = input.Split(' ');
 
-            foreach (var personData in dataPerPerson)
-            {
-                unanimousAnswers = unanimousAnswers.Intersect(personData);
-            }
+            input
+                .Split(' ')
+                .ToList()
+                .ForEach(data => unanimousAnswers = unanimousAnswers.Intersect(data));
 
             return unanimousAnswers.Count();
         }
