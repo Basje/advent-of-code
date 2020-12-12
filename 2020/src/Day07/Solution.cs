@@ -24,21 +24,23 @@ namespace AdventOfCode_2020.Day07
             WriteVerboseLine($"Found {translationTable.Count} colors of bags.");
             WriteVerboseLine($"Shiny gold bag has ID {shinyGoldBagId}");
 
-            var results = new Dictionary<int, bool>();
+            var canContainGoldShinyBag = new Dictionary<int, bool>();
 
             foreach (var bag in bagProperties)
             {
-                results[bag.Key] = CanHold(bag.Key, shinyGoldBagId, bagProperties, results);
+                canContainGoldShinyBag[bag.Key] = CanHold(bag.Key, shinyGoldBagId, bagProperties, canContainGoldShinyBag);
             }
 
-            var bagCount = results.Count(result => result.Value);
+            var bagCount = canContainGoldShinyBag.Count(result => result.Value);
 
             WriteHeaderLine("Day 7; part 1");
             WriteSuccessLine($"There are {bagCount} bags that can hold a shiny gold bag.");
             WriteLine();
 
+            var nestedBags = CountNestedBags(shinyGoldBagId, bagProperties);
+
             WriteHeaderLine("Day 7; part 2");
-            WriteSuccessLine($"?");
+            WriteSuccessLine($"A gold shiny bag can hold {nestedBags} other bags.");
             WriteLine();
 
             return Task.FromResult(0);
@@ -53,17 +55,25 @@ namespace AdventOfCode_2020.Day07
 
             if (properties[currentBag].Count == 0)
             {
-                //result[currentBag] = false;
                 return false;
             }
 
             if (properties[currentBag].ContainsKey(requiredBag))
             {
-                //result[currentBag] = true;
                 return true;
             }
 
             return properties[currentBag].Any(subBag => CanHold(subBag.Key, requiredBag, properties, result));
+        }
+
+        private static int CountNestedBags(int currentBag, IDictionary<int, IDictionary<int, int>> properties)
+        {
+            if (properties[currentBag].Count == 0)
+            {
+                return 0;
+            }
+
+            return properties[currentBag].Sum(subBag => subBag.Value + subBag.Value * CountNestedBags(subBag.Key, properties));
         }
     }
 }
