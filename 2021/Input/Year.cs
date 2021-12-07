@@ -1,4 +1,4 @@
-﻿namespace Utils.Input
+﻿namespace Basje.AdventOfCode.Y2021.Input
 {
     public record Year
     {
