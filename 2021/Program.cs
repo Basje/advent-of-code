@@ -2,6 +2,7 @@
 using Basje.AdventOfCode.Y2021.D02;
 using Basje.AdventOfCode.Y2021.D03;
 using Basje.AdventOfCode.Y2021.D04;
+using Basje.AdventOfCode.Y2021.D05;
 using Basje.AdventOfCode.Y2021.D07;
 using Basje.AdventOfCode.Y2021.Input;
 
@@ -31,6 +32,13 @@ var day04 = new Day04(Input.Year(2021).Day(4).ReadText());
 Console.WriteLine("DAY 4");
 Console.WriteLine($"1: {day04.SolvePart1()}");
 Console.WriteLine($"2: {day04.SolvePart2()}");
+Console.WriteLine();
+
+var day05 = new Day05(Input.Year(2021).Day(5).ReadLines());
+
+Console.WriteLine("DAY 5");
+Console.WriteLine($"1: {day05.SolvePart1()}");
+Console.WriteLine($"2: {day05.SolvePart2()}");
 Console.WriteLine();
 
 var day07 = new Day07(Input.Year(2021).Day(7).ReadText());
