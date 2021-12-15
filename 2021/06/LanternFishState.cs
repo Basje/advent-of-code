@@ -2,9 +2,9 @@
 {
     public class LanternFishState
     {
-        private readonly Dictionary<int, int> state = new();
+        private readonly Dictionary<int, long> state = new();
 
-        public int FishCount => state.Sum(entry => entry.Value);
+        public long FishCount => state.Sum(entry => entry.Value);
 
         public LanternFishState(IEnumerable<int> initialState)
         {
