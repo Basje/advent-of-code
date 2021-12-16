@@ -20,13 +20,13 @@ namespace Basje.AdventOfCode.Y2021.Tests
         }
 
         [Fact]
-        public void Part2_Should_Return_X_For_Example_Input()
+        public void Part2_Should_Return_61229_For_Example_Input()
         {
             var puzzle = new Day08(TestInput.Lines);
 
             var answer = puzzle.SolvePart2();
 
-            answer.Should().Be("X");
+            answer.Should().Be(61229.ToString());
         }
 
         private static class TestInput

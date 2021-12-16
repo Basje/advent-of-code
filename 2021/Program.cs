@@ -62,7 +62,7 @@ var day08 = new Day08(Input.Year(2021).Day(8).ReadLines());
 
 Console.WriteLine("DAY 8");
 Console.WriteLine($"1: {day08.SolvePart1()}");
-//Console.WriteLine($"2: {day08.SolvePart2()}");
+Console.WriteLine($"2: {day08.SolvePart2()}");
 Console.WriteLine();
 
 Console.ReadKey();
