@@ -31,7 +31,7 @@ namespace Basje.AdventOfCode.Y2021.Tests
 
         private static class TestInput
         {
-            public static string Locations => "16,1,2,0,4,2,7,1,2,14";
+            public static string[] Locations => new[] { "16,1,2,0,4,2,7,1,2,14" };
         }
     }
 }

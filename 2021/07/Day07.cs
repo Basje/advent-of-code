@@ -4,9 +4,9 @@
     {
         private readonly IEnumerable<int> positions;
 
-        public Day07(string input)
+        public Day07(IEnumerable<string> input)
         {
-            positions = input.Split(',').Select(int.Parse);
+            positions = input.First().Split(',').Select(int.Parse);
         }
 
         public string SolvePart1()

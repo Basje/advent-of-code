@@ -5,18 +5,18 @@
         private readonly IEnumerable<int> numberDraws;
         private readonly IList<BingoBoard> boards = new List<BingoBoard>();
 
-        public Day04(string input)
+        public Day04(IEnumerable<string> input)
         {
-            input = input.Replace("\r", string.Empty);
+            var inputText = string.Join(Environment.NewLine, input);
 
-            var blocks = input.Split("\n\n").ToList();
+            var blocks = inputText.Split(Environment.NewLine + Environment.NewLine).ToList();
 
             numberDraws = blocks.First().Split(',').Select(int.Parse).ToArray();
 
             blocks.RemoveAt(0);
 
             var boardsData = blocks
-                .Select(block => block.Split("\n", StringSplitOptions.RemoveEmptyEntries))
+                .Select(block => block.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
                 .Select(block => block.Select(line => 
                     line
                         .Split(' ', StringSplitOptions.RemoveEmptyEntries)
