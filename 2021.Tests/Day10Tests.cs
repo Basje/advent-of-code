@@ -19,15 +19,15 @@ namespace Basje.AdventOfCode.Y2021.Tests
             answer.Should().Be(26397.ToString());
         }
 
-        //[Fact]
-        //public void Part2_Should_Return_X_For_Example_Input()
-        //{
-        //    var puzzle = new Day10(TestInput.Lines);
+        [Fact]
+        public void Part2_Should_Return_288957_For_Example_Input()
+        {
+            var puzzle = new Day10(TestInput.Lines);
 
-        //    var answer = puzzle.SolvePart2();
+            var answer = puzzle.SolvePart2();
 
-        //    answer.Should().Be("X");
-        //}
+            answer.Should().Be(288957.ToString());
+        }
 
         private static class TestInput
         {
