@@ -12,7 +12,7 @@ var solutions = Assembly.GetExecutingAssembly()
 foreach (var solution in solutions)
 {
     var day = int.Parse(solution.Name.Replace("Day", ""));
-    var instance = (ISolution?)Activator.CreateInstance(solution, args: Input.Year(2021).Day(day).ReadLines());
+    var instance = (ISolution?)Activator.CreateInstance(solution, args: Input.Year(2022).Day(day).ReadLines());
 
     Console.WriteLine(solution.Name.ToUpper());
     Console.WriteLine($"1: {instance?.SolvePart1()}");

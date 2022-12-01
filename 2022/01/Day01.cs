@@ -2,26 +2,45 @@
 {
     public class Day01 : ISolution
     {
-        private readonly IEnumerable<int> depths;
+        private readonly IEnumerable<string> lines;
 
         public Day01(IEnumerable<string> input)
         {
-            depths = input.Select(ToInt);
+            lines = input;
         }
 
         public string SolvePart1()
         {
-            return string.Empty;
+            var caloriesPerElf = 
+                // Merge string back to original input
+                string.Join('\n', lines)
+                // Split by empty line
+                .Split("\n\n")
+                // Split into calories per elf
+                .Select(elfData => elfData.Split('\n').Select(int.Parse))
+                // Calculate sum of calories per elf
+                .Select(elfData => elfData.Sum());
+
+            return caloriesPerElf.Max().ToString();
         }
 
         public string SolvePart2()
         {
-            return string.Empty;
-        }
+            var caloriesPerElf =
+                // Merge string back to original input
+                string.Join('\n', lines)
+                // Split by empty line
+                .Split("\n\n")
+                // Split into calories per elf
+                .Select(elfData => elfData.Split('\n').Select(int.Parse))
+                // Calculate sum of calories per elf
+                .Select(elfData => elfData.Sum())
+                // Sort, most calories first
+                .OrderDescending()
+                // Only take the three elves with most calories
+                .Take(3);
 
-        static int ToInt(string input)
-        {
-            return int.Parse(input);
+            return caloriesPerElf.Sum().ToString();
         }
     }
 }
