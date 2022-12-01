@@ -2,9 +2,8 @@
 {
     public interface ISolution
     {
-        public string SolvePart1();
+        public long SolvePart1();
 
-        public string SolvePart2();
-
+        public long SolvePart2();
     }
 }
