@@ -10,7 +10,9 @@
                 // Split by empty line
                 .Split("\n\n")
                 // Split into calories per elf
-                .Select(elfData => elfData.Split('\n').Select(int.Parse))
+                .Select(elfData => elfData
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse))
                 // Calculate sum of calories per elf
                 .Select(elfData => elfData.Sum());
         }
