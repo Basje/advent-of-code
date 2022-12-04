@@ -13,7 +13,7 @@ public class Day04 : ISolution
             .Select(pair => pair.Split(','))
             // Convert to a tuple
             .Select(sections => (left: sections.First(), right: sections.Last()))
-            // Split range of selections into start and end numbers
+            // Split range of sections into start and end numbers
             .Select(sections => (left: sections.left.Split('-').Select(int.Parse), right: sections.right.Split('-').Select(int.Parse)))
             // Convert start and end numbers into ranges
             .Select(sections => (
@@ -27,8 +27,10 @@ public class Day04 : ISolution
         return assignments
             // Filter the sections that fully overlap...
             .Where(pair => 
-                pair.left.Intersect(pair.right).Count() == pair.left.Count() ||
-                pair.right.Intersect(pair.left).Count() == pair.right.Count()
+                // Ad hoc list of both range sizes
+                new[] { pair.left.Count(), pair.right.Count() }
+                    // The full overlap will have the size of the shortest range
+                    .Contains(pair.left.Intersect(pair.right).Count())
             )
             // ... and count them
             .Count();
@@ -38,8 +40,7 @@ public class Day04 : ISolution
     {
         return assignments
             // Filter the sections that partially overlap...
-            .Where(pair =>
-                pair.left.Intersect(pair.right).Any()
+            .Where(pair => pair.left.Intersect(pair.right).Any()
             )
             // ... and count them
             .Count();
