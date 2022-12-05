@@ -22,7 +22,7 @@ public class Day04 : ISolution
             ));
     }
 
-    public long SolvePart1()
+    public object SolvePart1()
     {
         return assignments
             // Filter the sections that fully overlap...
@@ -36,7 +36,7 @@ public class Day04 : ISolution
             .Count();
     }
 
-    public long SolvePart2()
+    public object SolvePart2()
     {
         return assignments
             // Filter the sections that partially overlap...

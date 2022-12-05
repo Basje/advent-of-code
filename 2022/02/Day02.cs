@@ -15,7 +15,7 @@ public class Day02 : ISolution
             .Select(instruction => (opponent: instruction.First(), me: instruction.Last()));
     }
 
-    public long SolvePart1()
+    public object SolvePart1()
     {
         return strategyGuide
             .Select(instruction => instruction.TranslateFromChoice())
@@ -23,7 +23,7 @@ public class Day02 : ISolution
             .Sum();
     }
 
-    public long SolvePart2()
+    public object SolvePart2()
     {
         return strategyGuide
             .Select(instruction => instruction.TranslateFromResult())

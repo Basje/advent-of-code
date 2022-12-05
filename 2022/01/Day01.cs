@@ -17,13 +17,13 @@
                 .Select(elfData => elfData.Sum());
         }
 
-        public long SolvePart1()
+        public object SolvePart1()
         {
             // Most calories per elf
             return caloriesPerElf.Max();
         }
 
-        public long SolvePart2()
+        public object SolvePart2()
         {
             return caloriesPerElf
                 // Sort, most calories first

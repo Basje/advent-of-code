@@ -2,8 +2,8 @@
 {
     public interface ISolution
     {
-        public long SolvePart1();
+        public object SolvePart1();
 
-        public long SolvePart2();
+        public object SolvePart2();
     }
 }

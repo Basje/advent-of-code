@@ -11,7 +11,7 @@ public class Day03 : ISolution
             .Split('\n', StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public long SolvePart1()
+    public object SolvePart1()
     {
         return rucksacks
             // Split rucksacks into two equal compartments
@@ -27,7 +27,7 @@ public class Day03 : ISolution
             .Sum();
     }
 
-    public long SolvePart2()
+    public object SolvePart2()
     {
         return rucksacks
             // Divide into groups of three elves
