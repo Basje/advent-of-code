@@ -17,27 +17,12 @@ public class Day06 : ISolution
 
     public object SolvePart1()
     {
-        return FindMarkerOfLength(4);
+        return datastream.FindMarkerOfLength(4);
     }
 
     public object SolvePart2()
     {
-        return FindMarkerOfLength(14);
-    }
-
-    private int FindMarkerOfLength(int length)
-    {
-        // Look at each series of specified length from start to end
-        foreach (var (index, window) in datastream.SlidingWindow(length))
-        {
-            // Did we find a marker?
-            if (window.Distinct().Count() == length)
-            {
-                return length + index;
-            }
-        }
-        // Error :(
-        return -1;
+        return datastream.FindMarkerOfLength(14);
     }
 }
 
@@ -53,5 +38,20 @@ public static class Extensions
         {
             yield return (index: i, window: new ArraySegment<T>(array, i, size));
         }
+    }
+
+    public static int FindMarkerOfLength(this IEnumerable<char> datastream, int length)
+    {
+        // Look at each series of specified length from start to end
+        foreach (var (index, window) in datastream.SlidingWindow(length))
+        {
+            // Did we find a marker?
+            if (window.Distinct().Count() == length)
+            {
+                return length + index;
+            }
+        }
+        // Error :(
+        return -1;
     }
 }
