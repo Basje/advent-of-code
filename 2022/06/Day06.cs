@@ -27,17 +27,13 @@ public class Day06 : ISolution
 
     private int FindMarkerOfLength(int length)
     {
-        // We start with a buffer to get the required number of characters
-        var buffer = length - 1;
         // Look at each series of specified length from start to end
-        foreach (var window in datastream.SlidingWindow(length))
+        foreach (var (index, window) in datastream.SlidingWindow(length))
         {
-            // Keep track of our location
-            buffer++;
             // Did we find a marker?
             if (window.Distinct().Count() == length)
             {
-                return buffer;
+                return length + index;
             }
         }
         // Error :(
@@ -48,14 +44,14 @@ public class Day06 : ISolution
 public static class Extensions
 {
     // Reuse extension from 2021 day 1
-    public static IEnumerable<ArraySegment<T>> SlidingWindow<T>(this IEnumerable<T> list, int size)
+    public static IEnumerable<(int index, ArraySegment<T> window)> SlidingWindow<T>(this IEnumerable<T> list, int size)
     {
         size = Math.Max(1, size);
         var array = list.ToArray();
 
         for (var i = 0; i <= list.Count() - size; i++)
         {
-            yield return new ArraySegment<T>(array, i, size);
+            yield return (index: i, window: new ArraySegment<T>(array, i, size));
         }
     }
 }
