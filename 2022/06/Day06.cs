@@ -17,34 +17,25 @@ public class Day06 : ISolution
 
     public object SolvePart1()
     {
-        // We start with 3 characters in the buffer
-        var buffer = 3;
-        // Look at each series of 4 characters from start to end
-        foreach (var window in datastream.SlidingWindow(4))
-        {
-            // Keep track of our location
-            buffer++;
-            // Did we find a start-of-packet marker?
-            if (window.Distinct().Count() == 4)
-            {
-                return buffer;
-            }
-        }
-        // Error :(
-        return -1;
+        return FindMarkerOfLength(4);
     }
 
     public object SolvePart2()
     {
-        // We start with 13 characters in the buffer
-        var buffer = 13;
-        // Look at each series of 4 characters from start to end
-        foreach (var window in datastream.SlidingWindow(14))
+        return FindMarkerOfLength(14);
+    }
+
+    private int FindMarkerOfLength(int length)
+    {
+        // We start with a buffer to get the required number of characters
+        var buffer = length - 1;
+        // Look at each series of specified length from start to end
+        foreach (var window in datastream.SlidingWindow(length))
         {
             // Keep track of our location
             buffer++;
-            // Did we find a start-of-message marker?
-            if (window.Distinct().Count() == 14)
+            // Did we find a marker?
+            if (window.Distinct().Count() == length)
             {
                 return buffer;
             }
