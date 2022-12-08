@@ -50,7 +50,18 @@ public class Day08 : ISolution
 
     public object SolvePart2()
     {
-        return -1;
+        var scenicScores = new int[trees.GetLength(0),trees.GetLength(1)];
+
+        foreach (var currentTree in trees)
+        {
+            scenicScores[currentTree.X, currentTree.Y] =
+                trees.Above(currentTree).ViewingDistance(currentTree.Height)
+                * trees.Below(currentTree).ViewingDistance(currentTree.Height)
+                * trees.RightOf(currentTree).ViewingDistance(currentTree.Height)
+                * trees.LeftOf(currentTree).ViewingDistance(currentTree.Height);
+        }
+
+        return scenicScores.All().Max();
     }
 }
 
@@ -92,6 +103,25 @@ public static class Extensions
         for (int x = tree.X + 1, y = tree.Y; x < trees.GetLength(0); x++)
         {
             yield return trees[x, y];
+        }
+    }
+
+    public static int ViewingDistance(this IEnumerable<Tree> trees, int height)
+    {
+        var distance = 0;
+        foreach (var tree in trees)
+        {
+            distance++;
+            if (tree.Height >= height) break;
+        }
+        return distance;
+    }
+
+    public static IEnumerable<int> All(this int[,] scores)
+    {
+        foreach (var score in scores)
+        {
+            yield return score;
         }
     }
 }
