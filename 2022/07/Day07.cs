@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace Basje.AdventOfCode.Y2022.D07;
+﻿namespace Basje.AdventOfCode.Y2022.D07;
 
 public class Day07 : ISolution
 {
@@ -97,26 +95,24 @@ public record Directory : IFilesystemNode
         var result = new List<Directory>();
         var directories = new Stack<Directory>();
 
+        // Start with current node
         directories.Push(this);
-
-        while(directories.Any())
+        // As long as we have nodes to process
+        while (directories.Any())
         {
+            // Get a node
             var current = directories.Pop();
-
+            // Get all directories of this node for later processing
             foreach (var dir in current.contents.Where(d => d is Directory).Select(d => d as Directory))
             {
                 directories.Push(dir!);
             }
-
+            // Check if we are looking for current node
             if (check(current))
             {
                 result.Add(current);
             }
         }
-
-        return result;        
+        return result;
     }
 }
-
-
-
