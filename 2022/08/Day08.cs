@@ -3,8 +3,6 @@
 public class Day08 : ISolution
 {
     private readonly Tree[,] trees;
-    private readonly int northToSouth;
-    private readonly int westToEast;
 
     public Day08(string input)
     {
@@ -13,9 +11,8 @@ public class Day08 : ISolution
             .Select(row => row.Select(value => int.Parse(value.ToString())).ToArray())
             .ToArray();
 
-
-        westToEast = heights.First().Length;
-        northToSouth = heights.Count();
+        var westToEast = heights.First().Length;
+        var northToSouth = heights.Length;
 
         trees = new Tree[westToEast, northToSouth];
 
@@ -25,11 +22,9 @@ public class Day08 : ISolution
             {
                 trees[x, y] = new Tree
                 {
+                    X = x,
+                    Y = y,
                     Height = heights[y][x],
-                    IsVisibleFromNorth = y == 0,
-                    IsVisibleFromEast = x == westToEast - 1,
-                    IsVisibleFromSouth = y == northToSouth - 1,
-                    IsVisibleFromWest = x == 0,
                 };
             }
         }
@@ -37,50 +32,14 @@ public class Day08 : ISolution
 
     public object SolvePart1()
     {
-        // Determine north to south
-        for (int x = westToEast.First(); x <= westToEast.Last(); x++)
-        {
-            for (int y = northToSouth.First() + 1, maxHeight = trees[x, northToSouth.First()].Height; y <= northToSouth.Last(); y++)
-            {
-                trees[x, y].IsVisibleFromNorth = trees[x, y].Height > maxHeight;
-                maxHeight = Math.Max(maxHeight, trees[x, y].Height);
-            }
-        }
-
-        // Determine south to north
-        for (int x = westToEast.Last(); x >= westToEast.First(); x--)
-        {
-            for (int y = northToSouth.Last() - 1, maxHeight = trees[x, northToSouth.Last()].Height; y >= northToSouth.First(); y--)
-            {
-                trees[x, y].IsVisibleFromSouth = trees[x, y].Height > maxHeight;
-                maxHeight = Math.Max(maxHeight, trees[x, y].Height);
-            }
-        }
-
-        // Determine west to east
-        for (int y = northToSouth.First(); y <= northToSouth.Last(); y++)
-        {
-            for (int x = westToEast.First() + 1, maxHeight = trees[westToEast.First(), y].Height; x <= westToEast.Last(); x++)
-            {
-                trees[x, y].IsVisibleFromWest = trees[x, y].Height > maxHeight;
-                maxHeight = Math.Max(maxHeight, trees[x, y].Height);
-            }
-        }
-
-        // Determine east to west
-        for (int y = northToSouth.Last(); y >= northToSouth.First(); y--)
-        {
-            for (int x = westToEast.Last() - 1, maxHeight = trees[westToEast.Last(), y].Height; x >= westToEast.First(); x--)
-            {
-                trees[x, y].IsVisibleFromEast = trees[x, y].Height > maxHeight;
-                maxHeight = Math.Max(maxHeight, trees[x, y].Height);
-            }
-        }
-
         var visibleTrees = 0;
-        foreach (var tree in trees)
+
+        foreach (var currentTree in trees)
         {
-            if (tree.IsVisible)
+            if (trees.Above(currentTree).All(tree => tree.Height < currentTree.Height)
+                || trees.Below(currentTree).All(tree => tree.Height < currentTree.Height)
+                || trees.RightOf(currentTree).All(tree => tree.Height < currentTree.Height)
+                || trees.LeftOf(currentTree).All(tree => tree.Height < currentTree.Height))
             {
                 visibleTrees++;
             }
@@ -98,23 +57,41 @@ public class Day08 : ISolution
 public record Tree
 {
     public required int Height { get; init; }
-    public required bool IsVisibleFromNorth { get; set; }
-    public required bool IsVisibleFromEast { get; set; }
-    public required bool IsVisibleFromSouth { get; set; }
-    public required bool IsVisibleFromWest { get; set; }
-
-    public bool IsVisible => IsVisibleFromNorth || IsVisibleFromEast || IsVisibleFromSouth || IsVisibleFromWest;
+    public required int X { get; init; }
+    public required int Y { get; init; }
 }
 
 public static class Extensions
 {
-    public static int First(this int dimension)
+    public static IEnumerable<Tree> Above(this Tree[,] trees, Tree tree)
     {
-        return 0;
+        for (int x = tree.X, y = tree.Y - 1; y >= 0; y--)
+        {
+            yield return trees[x, y];
+        }
     }
 
-    public static int Last(this int dimension)
+    public static IEnumerable<Tree> Below(this Tree[,] trees, Tree tree)
     {
-        return dimension - 1;
+        for (int x = tree.X, y = tree.Y + 1; y < trees.GetLength(1); y++)
+        {
+            yield return trees[x, y];
+        }
+    }
+
+    public static IEnumerable<Tree> LeftOf(this Tree[,] trees, Tree tree)
+    {
+        for (int x = tree.X - 1, y = tree.Y; x >= 0; x--)
+        {
+            yield return trees[x, y];
+        }
+    }
+
+    public static IEnumerable<Tree> RightOf(this Tree[,] trees, Tree tree)
+    {
+        for (int x = tree.X + 1, y = tree.Y; x < trees.GetLength(0); x++)
+        {
+            yield return trees[x, y];
+        }
     }
 }
