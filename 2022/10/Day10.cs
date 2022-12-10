@@ -1,22 +1,23 @@
-﻿namespace Basje.AdventOfCode.Y2022.D10;
+﻿using System.Text;
+
+namespace Basje.AdventOfCode.Y2022.D10;
 
 public class Day10 : ISolution
 {
-    private readonly Queue<IInstruction> instructions;
+    private readonly IEnumerable<IInstruction> instructions;
 
     public Day10(string input)
     {
-        var instructions = input
+        instructions = input
             .Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Select(instruction => instruction.ParseInstruction());
-
-        this.instructions = new Queue<IInstruction>(instructions);
     }
 
     public object SolvePart1()
     {
         var cpu = new Cpu();
         var signalStrengths = new List<int>();
+        var instructions = new Queue<IInstruction>(this.instructions);
 
         while (instructions.Any())
         {
@@ -39,7 +40,35 @@ public class Day10 : ISolution
 
     public object SolvePart2()
     {
-       return -1;
+        const int SCREEN_WIDTH = 40;
+        var cpu = new Cpu();
+        var screen = new StringBuilder();
+        var instructions = new Queue<IInstruction>(this.instructions);
+        var sprite = Enumerable.Repeat('.', SCREEN_WIDTH).ToList();
+
+        while (instructions.Any())
+        {
+            for (var pixel = 0; pixel < sprite.Count(); pixel++)
+            {
+                sprite[pixel] = cpu.X - 1 <= pixel && pixel <= cpu.X + 1 ? '#' : '.';
+            }
+
+            screen.Append(sprite[(cpu.Cycle - 1) % SCREEN_WIDTH]);
+
+            if (cpu.Cycle % SCREEN_WIDTH == 0)
+            {
+                screen.AppendLine();
+            }
+
+            if (cpu.IsFree)
+            {
+                cpu.Process(instructions.Dequeue());
+            }
+
+            cpu.Tick();
+        }
+
+        return screen;
     }
 }
 
