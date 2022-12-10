@@ -16,19 +16,13 @@ public class Day09 : ISolution
 
     public object SolvePart1()
     {
-        var previousHead = Position.Start;
         var tail = Position.Start;
         var visited = new List<Position> { tail };
 
         foreach (var head in Position.Start.Move(motions))
         {
-            if (!tail.IsTouching(head))
-            {
-                tail = previousHead;
-                visited.Add(tail);
-            }
-
-            previousHead = head;
+            tail = tail.Follow(head);
+            visited.Add(tail);
         }
 
         return visited.Distinct().Count();
@@ -36,25 +30,17 @@ public class Day09 : ISolution
 
     public object SolvePart2()
     {
-        var currentRope = new Position[10];
-        var previousRope = new Position[10];
+        var rope = new Position[10];
         var visited = new List<Position>();
 
         foreach (var head in Position.Start.Move(motions))
         {
-            currentRope[0] = head;
-            for (var i = 1; i < currentRope.Length; i++)
+            rope[0] = head;
+            for (var i = 1; i < rope.Length; i++)
             {
-                if (!currentRope[i].IsTouching(currentRope[i-1]))
-                {
-                    currentRope[i] = currentRope[i].Follow(currentRope[i-1]);
-                }
+                rope[i] = rope[i].Follow(rope[i-1]);
             }
-            if (!visited.Contains(currentRope[9]))
-            {
-                visited.Add(currentRope[9]);
-            }
-            currentRope.CopyTo(previousRope, 0);
+            visited.Add(rope[9]);
         }
 
         return visited.Distinct().Count();
@@ -66,7 +52,6 @@ public struct Position
 {
     public required int X { get; init; }
     public required int Y { get; init; }
-
     public static Position Start => new() { X = 0, Y = 0 };
 }
 
@@ -103,13 +88,6 @@ public static class Extentions
                 _ => throw new Exception(),
             };
         }
-    }
-
-    public static bool IsTouching(this Position tail, Position head)
-    {
-        var deltaX = Math.Abs(tail.X - head.X);
-        var deltaY = Math.Abs(tail.Y - head.Y);
-        return (deltaX == 0 || deltaX == 1) && (deltaY == 0 || deltaY == 1);
     }
 
     public static Position Follow(this Position tail, Position head)
