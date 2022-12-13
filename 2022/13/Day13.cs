@@ -17,6 +17,7 @@ public class Day13 : ISolution
     {
         var pairNumber = 1;
         var orderedPairs = new List<int>();
+
         foreach (var pair in packets)
         {
             if(IsInOrder(pair.left, pair.right, 0, 0, 0))
@@ -30,11 +31,39 @@ public class Day13 : ISolution
 
     public object SolvePart2()
     {
-        return null;
+        var allPackets = new List<string>() { "[[2]]", "[[6]]" };
+
+        foreach (var (left, right) in packets)
+        {
+            allPackets.Add(left);
+            allPackets.Add(right);
+        }
+
+        var sorted = allPackets.Order(new PacketComparer());
+        var dividerPacketLocations = new List<int>();
+        var searchLocation = 1;
+
+        foreach(var packet in sorted)
+        {
+            if (new string[] {"[[2]]", "[[6]]"}.Contains(packet))
+            {
+                dividerPacketLocations.Add(searchLocation);
+            }
+            searchLocation++;
+        }
+
+        var decoderKey = 1;
+
+        foreach(var location in  dividerPacketLocations)
+        {
+            decoderKey *= location;
+        }
+
+        return decoderKey;
     }
 
     // Recursive function to walk through both packets simultaneously
-    private bool IsInOrder(string left, string right, int level, int lNumber, int rNumber)
+    public static bool IsInOrder(string left, string right, int level, int lNumber, int rNumber)
     {
         if (level == 0 && (left.Length == 0 || right.Length == 0)) return true;
 
@@ -93,6 +122,28 @@ public class Day13 : ISolution
             // Are we done debugging yet?
             (_, _) token => throw new Exception($"Unexpected combination: ( {token.left} , {token.right} )"),
         };
+    }
+}
+
+public class PacketComparer : StringComparer
+{
+    public override int Compare(string? left, string? right)
+    {
+        if (left is null && right is null) return 0;
+        if (left is null) return -1;
+        if (right is null) return 1;
+
+        return Day13.IsInOrder(left, right, 0, -1, -1) ? -1 : 1;
+    }
+
+    public override bool Equals(string? left, string? right)
+    {
+        return Compare(left, right) == 0;
+    }
+
+    public override int GetHashCode(string obj)
+    {
+        return obj.GetHashCode();
     }
 }
 
