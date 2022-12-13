@@ -67,36 +67,25 @@ public class Day13 : ISolution
 
         return (left: left[0], right: right[0]) switch
         {
-            // Exit: left has run out of items
+            // Exit: one list or both lists have run out of items
             (']', '[') or (']', ',') => lNumber == rNumber || lNumber < rNumber,
-            // Exit: right has run out of items
             ('[', ']') or (',', ']') => lNumber != rNumber && lNumber < rNumber,
-            // Exit: compare different items in packets
             (']', ']') or (',', ',') when lNumber != rNumber => lNumber < rNumber,
 
             // Continue: so far still the same
             (']', ']') or (',', ',') or ('[', '[') when lNumber == rNumber 
                 => IsInOrder(left.Next(), right.Next(), NONE, NONE),
-            // Continue: left is next digit of current number, right is ready for next number
-            (>= '0' and <= '9', ',') token 
-                => IsInOrder(left.Next(), right, lNumber.Add(token.left), rNumber),
-            // Continue: left is next digit of current number, right is end of list
-            (>= '0' and <= '9', ']') token 
-                => rNumber >= 0 && IsInOrder(left.Next(), right, lNumber.Add(token.left), rNumber),
-            // Continue: left is ready for next number, right is next digit of current number
-            (',', >= '0' and <= '9') token 
-                => IsInOrder(left, right.Next(), lNumber, rNumber.Add(token.right)),
-            // Continue: left is end of list, right is next digit of current number
-            (']', >= '0' and <= '9') token 
-                => lNumber == NONE || IsInOrder(left, right.Next(), lNumber, rNumber.Add(token.right)),
-            // Continue: mixed types, right is plain number while left is new list
-            ('[', >= '0' and <= '9') token 
-                => IsInOrder(left, right.NumberToList(), NONE, NONE),
-            // Continue: mixed types, left is plain number while right is new list
-            (>= '0' and <= '9', '[') token 
-                => IsInOrder(left.NumberToList(), right, NONE, NONE),
+
+            // Continue: parse number that is bigger than 9
+            (>= '0' and <= '9', ',' or ']') token => IsInOrder(left.Next(), right, lNumber.Add(token.left), rNumber),
+            (',' or ']', >= '0' and <= '9') token => IsInOrder(left, right.Next(), lNumber, rNumber.Add(token.right)),
+            
+            // Continue: mixed type, make list of the number
+            (>= '0' and <= '9', '[') token => IsInOrder(left.NumberToList(), right, NONE, NONE),
+            ('[', >= '0' and <= '9') token => IsInOrder(left, right.NumberToList(), NONE, NONE),
+            
             // Continue: digits, track numbers and keep parsing 
-            ( >= '0' and <= '9', >= '0' and <= '9') token
+            (>= '0' and <= '9', >= '0' and <= '9') token
                 => IsInOrder(left.Next(), right.Next(), lNumber.Add(token.left), rNumber.Add(token.right)),
 
             // Are we done debugging yet?
