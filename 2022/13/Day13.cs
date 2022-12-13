@@ -20,7 +20,7 @@ public class Day13 : ISolution
 
         foreach (var (left, right) in packets)
         {
-            if(IsInOrder(left, right, 0, -1, -1))
+            if(IsInOrder(left, right, -1, -1))
             {
                 orderedPairs.Add(pairNumber);
             }
@@ -59,11 +59,11 @@ public class Day13 : ISolution
     }
 
     // Recursive function to walk through both packets simultaneously
-    public static bool IsInOrder(string left, string right, int level, int lNumber, int rNumber)
+    public static bool IsInOrder(string left, string right, int lNumber, int rNumber)
     {
         const int NONE = 1;
 
-        if (level == 0 && (left.Length == 0 || right.Length == 0)) return true;
+        if (left.Length == 0 || right.Length == 0) return true;
 
         return (left: left[0], right: right[0]) switch
         {
@@ -74,36 +74,30 @@ public class Day13 : ISolution
             // Exit: compare different items in packets
             (']', ']') or (',', ',') when lNumber != rNumber => lNumber < rNumber,
 
-            // Continue: so far still the same, go up a level
-            (']', ']') when lNumber == rNumber 
-                => IsInOrder(left.Next(), right.Next(), --level, NONE, NONE),
-            // Continue: so far still the same, stay in level
-            (',', ',') when lNumber == rNumber 
-                => IsInOrder(left.Next(), right.Next(), level, NONE, NONE),
-            // Continue: new list in both packets, go down a level
-            ('[', '[') 
-                => IsInOrder(left.Next(), right.Next(), ++level, NONE, NONE),
+            // Continue: so far still the same
+            (']', ']') or (',', ',') or ('[', '[') when lNumber == rNumber 
+                => IsInOrder(left.Next(), right.Next(), NONE, NONE),
             // Continue: left is next digit of current number, right is ready for next number
             (>= '0' and <= '9', ',') token 
-                => IsInOrder(left.Next(), right, level, lNumber.Add(token.left), rNumber),
+                => IsInOrder(left.Next(), right, lNumber.Add(token.left), rNumber),
             // Continue: left is next digit of current number, right is end of list
             (>= '0' and <= '9', ']') token 
-                => rNumber >= 0 && IsInOrder(left.Next(), right, level, lNumber.Add(token.left), rNumber),
+                => rNumber >= 0 && IsInOrder(left.Next(), right, lNumber.Add(token.left), rNumber),
             // Continue: left is ready for next number, right is next digit of current number
             (',', >= '0' and <= '9') token 
-                => IsInOrder(left, right.Next(), level, lNumber, rNumber.Add(token.right)),
+                => IsInOrder(left, right.Next(), lNumber, rNumber.Add(token.right)),
             // Continue: left is end of list, right is next digit of current number
             (']', >= '0' and <= '9') token 
-                => lNumber == NONE || IsInOrder(left, right.Next(), level, lNumber, rNumber.Add(token.right)),
+                => lNumber == NONE || IsInOrder(left, right.Next(), lNumber, rNumber.Add(token.right)),
             // Continue: mixed types, right is plain number while left is new list
             ('[', >= '0' and <= '9') token 
-                => IsInOrder(left, right.NumberToList(), level, NONE, NONE),
+                => IsInOrder(left, right.NumberToList(), NONE, NONE),
             // Continue: mixed types, left is plain number while right is new list
             (>= '0' and <= '9', '[') token 
-                => IsInOrder(left.NumberToList(), right, level, NONE, NONE),
+                => IsInOrder(left.NumberToList(), right, NONE, NONE),
             // Continue: digits, track numbers and keep parsing 
             ( >= '0' and <= '9', >= '0' and <= '9') token
-                => IsInOrder(left.Next(), right.Next(), level, lNumber.Add(token.left), rNumber.Add(token.right)),
+                => IsInOrder(left.Next(), right.Next(), lNumber.Add(token.left), rNumber.Add(token.right)),
 
             // Are we done debugging yet?
             (_, _) token => throw new Exception($"Unexpected combination: ( {token.left} , {token.right} )"),
@@ -120,7 +114,7 @@ public class PacketComparer : StringComparer
             (null, null) => 0,
             (null, _) => -1,
             (_, null) => 1,
-            (_, _) => Day13.IsInOrder(left, right, 0, -1, -1) ? -1 : 1,
+            (_, _) => Day13.IsInOrder(left, right, -1, -1) ? -1 : 1,
         };
     }
 
