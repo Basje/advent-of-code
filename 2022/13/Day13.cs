@@ -34,6 +34,8 @@ public class Day13 : ISolution
         var dividerPackets = new string[] { "[[2]]", "[[6]]" };
         var allPackets = new List<string>();
 
+        allPackets.AddRange(dividerPackets);
+
         foreach (var (left, right) in packets)
         {
             allPackets.Add(left);
