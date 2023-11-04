@@ -2,7 +2,7 @@
 
 public partial class Day15 : ISolution
 {
-    private readonly IEnumerable<((int x, int y) sensor, (int x, int y) beacon)> locations;
+    private readonly IEnumerable<Pair> locations;
 
     public Day15(string input)
     {
@@ -15,59 +15,150 @@ public partial class Day15 : ISolution
             .Select(line => line.Select(coords => coords.Split(", ")))
             .Select(line => line.Select(coords => coords.Select(int.Parse).ToArray()))
             .Select(line => line.Select(coords => (x: coords[0], y: coords[1])).ToArray())
-            .Select(line => (sensor: line[0], beacon: line[1]));
+            .Select(line => (sensor: new Sensor { X = line[0].x, Y = line[0].y }, beacon: new Beacon { X = line[1].x, Y = line[1].y }))
+            .Select(line => new Pair(line.sensor, line.beacon));
     }
 
     public object SolvePart1()
     {
         const int ROW = 2_000_000;
-        var intersectingCoords = new List<int>();
-        var beaconCount = locations.Where(line => line.beacon.y == ROW).Select(line => line.beacon).Distinct().Count();
+        var intersections = new List<Range>();
+        var beaconCount = locations
+            .Where(pair => pair.Beacon.Y == ROW)
+            .Select(pair => pair.Beacon)
+            .Distinct()
+            .Count();
 
-        foreach (var line in locations)
+        foreach (var pair in locations)
         {
-            var intersectingRowXs = line.GetIntersectionsWith(ROW);
-            intersectingCoords.AddRange(intersectingRowXs);
-            intersectingCoords = intersectingCoords.Distinct().ToList();
+            var slice = pair.RowSlice(ROW);
+            if (slice != null) {
+                intersections.Add(slice);
+            }
         }
-        return intersectingCoords.Distinct().Count() - beaconCount;
+
+        return intersections.Count() - beaconCount;
     }
 
     public object SolvePart2()
     {
-        return -1;
+        const int MIN = 0;
+        const int MAX = 4_000_000;
+
+        var tuningFrequency = 0;
+
+        //for (var row = MIN; row <= MAX; row++)
+        //{
+        //    var possibleXs = Enumerable.Range(0, 4_000_000);
+        //    var beaconCount = locations
+        //        .Where(line => line.beacon.y == row)
+        //        .Select(line => line.beacon)
+        //        .Distinct()
+        //        .Count();
+
+        //    foreach (var line in locations)
+        //    {
+        //        var intersectingRowXs = line.GetIntersectionsWith(row);
+        //        possibleXs = possibleXs.Except(intersectingRowXs);
+        //    }
+
+        //    if (possibleXs.Any())
+        //    {
+        //        tuningFrequency = possibleXs.First() * MAX + row;
+        //        break;
+        //    }
+
+        //}
+        
+        return tuningFrequency;
     }
 }
 
 public static class Extensions
 {
-    public static IEnumerable<int> GetIntersectionsWith(this ((int x, int y) sensor, (int x, int y) beacon) line, int row)
+    public static int Count(this IEnumerable<Range> ranges)
     {
-        var (intersects, radius, distance) = line.IntersectsWithRow(row);
-        if (intersects)
+        var input = ranges.OrderBy(range => range.Start).ToList();
+        var min = ranges.Min(range => range.Start);
+        var max = ranges.Max(range => range.End);
+        var count = 0;
+
+        for ( var i = min; i <= max; i++)
         {
-            var diff = radius - distance;
-            return Enumerable.Range(line.sensor.x - diff, diff * 2 + 1);
+            foreach ( var range in input)
+            {
+                if (range.Contains(i))
+                {
+                    count++;
+                    continue;
+                }
+            }
         }
-        return Enumerable.Empty<int>();
+        return count;
     }
 
-    public static int ManhattanDistanceTo(this (int x, int y) left, (int x, int y) right)
+    public static bool Contains(this Range range, int value)
     {
-        return Math.Abs(left.x - right.x) + Math.Abs(left.y - right.y);
+        return range.Start <= value && value <= range.End; 
+    }
+}
+
+public record Pair
+{
+    private readonly int manhattanDistance;
+
+    public Pair(Sensor sensor, Beacon beacon)
+    {
+        Sensor = sensor;
+        Beacon = beacon;
+
+        manhattanDistance = Math.Abs(Sensor.X - Beacon.X) + Math.Abs(Sensor.Y - Beacon.Y);
     }
 
-    public static (bool intersects, int mDistance, int iDistance) IntersectsWithRow(this ((int x, int y) sensor, (int x, int y) beacon) line, int row)
+    public Sensor Sensor { get; private init; }
+    public Beacon Beacon { get; private init; }
+
+    public int ManhattanDistance => manhattanDistance;
+
+    public Range? RowSlice(int row)
     {
-        var manhattanDistance = line.sensor.ManhattanDistanceTo(line.beacon);
-        var intersects = line.sensor.y - manhattanDistance <= row && row <= line.sensor.y + manhattanDistance;
+        var intersects = Sensor.Y - ManhattanDistance <= row && row <= Sensor.Y + ManhattanDistance;
 
         if (!intersects)
         {
-            return (false, manhattanDistance, 0);
+            return null;
         }
 
-        var intersectDistance = Math.Abs(row - line.sensor.y);
-        return (intersects, manhattanDistance, intersectDistance);
+        var diff = ManhattanDistance - Math.Abs(row - Sensor.Y);
+        return new Range(Sensor.X - diff, Sensor.X + diff);
+    }
+}
+
+public readonly struct Sensor
+{
+    public required int X { get; init; }
+    public required int Y { get; init; }
+}
+
+public readonly struct Beacon
+{
+    public required int X { get; init; }
+    public required int Y { get; init; }
+}
+
+public record Range
+{
+    public Range(int start, int end)
+    {
+        Start = start;
+        End = end;
+    }
+
+    public int Start { get; private init; }
+    public int End { get; private init; }
+
+    public bool Overlaps(Range range)
+    {
+        return false;
     }
 }
