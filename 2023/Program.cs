@@ -10,25 +10,25 @@ var solutions = Assembly.GetExecutingAssembly()
     .OrderBy(type => type.Name)
     .ToList();
 
-foreach (var solution in solutions)
+foreach (var type in solutions)
 {
-    var instance = (ISolution)Activator.CreateInstance(solution);
+    var instance = Activator.CreateInstance(type);
     
-    if (instance is null) continue;
+    if (instance is not ISolution solution) continue;
 
-    var day = int.Parse(solution.Name.Replace("Day", ""));
+    var day = int.Parse(type.Name.Replace("Day", ""));
     var input = Input.Year(2023).Day(day).ReadText();
 
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine($"{solution.Name.ToUpper()}.1");
+    Console.WriteLine($"{type.Name.ToUpper()}.1");
     Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine(instance.SolvePart1(input));
+    Console.WriteLine(solution.SolvePart1(input));
     Console.WriteLine();
 
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine($"{solution.Name.ToUpper()}.2");
+    Console.WriteLine($"{type.Name.ToUpper()}.2");
     Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine(instance.SolvePart2(input));
+    Console.WriteLine(solution.SolvePart2(input));
     Console.WriteLine();
 }
 
