@@ -14,47 +14,52 @@ public class Day01 : Solution<IEnumerable<string>>
     
     protected override object SolvePart1(IEnumerable<string> input)
     {
-        var lines = input
-            .Select(line => Regex.Replace(line, "[a-z]", ""));
-
-        var total = 0;
-        
-        foreach (var line in lines)
-        {
-            if (line.Length == 0) continue;
-            var number = int.Parse($"{line.First()}{line.Last()}");
-            total += number;
-        }
-        
-        return total;
+        return input
+            // Remove non-numeric characters    
+            .Select(line => Regex.Replace(line, "[a-z]", ""))
+            // Take first and last number
+            .Select(line => $"{line.First()}{line.Last()}")
+            // Convert to integer
+            .Select(int.Parse)
+            // Calculate total sum
+            .Sum();
     }
 
     protected override object SolvePart2(IEnumerable<string> input)
     {
-               
-
-            // .Select(line => Regex.Replace(line, "[a-z]", ""));
-
-        var total = 0;
-        
-        foreach (var line in input)
+        // List all replaces. We don't care about the resulting string, only that we find the first and last number
+        // that is spelled out. Some spellings might overlap, for example "eightwo". To account for this, the
+        // replacements keep those possible overlapping characters intact. Full list of overlaps is:
+        // - oneight => 1e, o8
+        // - twone => o1, 2o
+        // - threeight => 3e, 8t
+        // - fiveight => 5e, e8
+        // - sevenine => 7n, n9
+        // - eightwo, eighthree => 8t, t2, t3
+        // - nineight => n8, 9e
+        var replaces = new Dictionary<string, string>()
         {
-            var line2 = line
-                .Replace("one", "o1e")
-                .Replace("two", "t2o")
-                .Replace("three", "thr3e")
-                .Replace("four", "f4ur")
-                .Replace("five", "f5ve")
-                .Replace("six", "s6x")
-                .Replace("seven", "se7en")
-                .Replace("eight", "eih8ht")
-                .Replace("nine", "n9ne");
+            {"one", "o1e"},
+            {"two", "t2o"},
+            {"three", "t3e"},
+            {"four", "4"},
+            {"five", "5e"},
+            {"six", "6"},
+            {"seven", "7n"},
+            {"eight", "e8t"},
+            {"nine", "n9e"},
+        };
             
-            line2 = Regex.Replace(line2, "[a-z]", "");
-            
-            var number = int.Parse($"{line2.First()}{line2.Last()}");
-            total += number;
-        }
-        
-        return total;    }
+        return input
+            // Replace spelled out numbers with numeric characters     
+            .Select(line => replaces.Aggregate(line, (current, replace) => current.Replace(replace.Key, replace.Value)))
+            // Remove non-numeric characters
+            .Select(line => Regex.Replace(line, "[a-z]", ""))
+            // Take first and last number
+            .Select(line => $"{line.First()}{line.Last()}")
+            // Convert to integer
+            .Select(int.Parse)
+            // Calculate total sum
+            .Sum();
+    }
 }
