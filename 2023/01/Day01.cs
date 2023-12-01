@@ -30,13 +30,13 @@ public class Day01 : Solution<IEnumerable<string>>
         // List all replaces. We don't care about the resulting string, only that we find the first and last number
         // that is spelled out. Some spellings might overlap, for example "eightwo". To account for this, the
         // replacements keep those possible overlapping characters intact. Full list of overlaps is:
-        // - oneight => 1e, o8
+        // - oneight => 1e, e8
         // - twone => o1, 2o
-        // - threeight => 3e, 8t
+        // - threeight => 3e, e8
         // - fiveight => 5e, e8
         // - sevenine => 7n, n9
         // - eightwo, eighthree => 8t, t2, t3
-        // - nineight => n8, 9e
+        // - nineight => e8, 9e
         var replaces = new Dictionary<string, string>()
         {
             {"one", "o1e"},
