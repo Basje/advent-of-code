@@ -1,6 +1,7 @@
-﻿using Basje.AdventOfCode.Y2023;
-using Basje.AdventOfCode.Y2023.Input;
+﻿using System.Diagnostics;
 using System.Reflection;
+using Basje.AdventOfCode.Y2023;
+using Basje.AdventOfCode.Y2023.Input;
 
 // Use reflection to get all non-abstract implementations of puzzle solutions.
 var solutions = Assembly.GetExecutingAssembly()
@@ -18,17 +19,35 @@ foreach (var type in solutions)
 
     var day = int.Parse(type.Name.Replace("Day", ""));
     var input = Input.Year(2023).Day(day).ReadText();
+    
+    var stopWatch = new Stopwatch();
+    stopWatch.Start();
+    var answer1 = solution.SolvePart1(input);
+    stopWatch.Stop();
+    var elapsedTime = stopWatch.Elapsed;
+
 
     Console.ForegroundColor = ConsoleColor.DarkGray;
     Console.WriteLine($"{type.Name.ToUpper()}.1");
     Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine(solution.SolvePart1(input));
+    Console.WriteLine(answer1);
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine($"{elapsedTime.Microseconds/1000f:N3} ms");
     Console.WriteLine();
 
+    stopWatch.Reset();
+    stopWatch.Start();
+    var answer2 = solution.SolvePart2(input);
+    stopWatch.Stop();
+    elapsedTime = stopWatch.Elapsed;
+
+    
     Console.ForegroundColor = ConsoleColor.DarkGray;
     Console.WriteLine($"{type.Name.ToUpper()}.2");
     Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine(solution.SolvePart2(input));
+    Console.WriteLine(answer2);
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine($"{elapsedTime.Microseconds/1000f:N3} ms");
     Console.WriteLine();
 }
 
