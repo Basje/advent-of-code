@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Basje.AdventOfCode.Y2024.Input;
+﻿using Basje.AdventOfCode.Y2024.Input;
 
 namespace Basje.AdventOfCode.Y2024.D01;
 
