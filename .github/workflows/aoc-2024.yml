@@ -1,0 +1,36 @@
+name: Advent of Code 2024
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 2024/**
+      - 2024.Tests/**
+
+  pull_request:
+    paths:
+      - 2024/**
+      - 2024.Tests/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+          
+      - name: Restore dependencies
+        run: dotnet restore Advent-of-Code-2024.sln
+        
+      - name: Build project
+        run: dotnet build Advent-of-Code-2024.sln --no-restore
+        
+      - name: Run tests
+        run: dotnet test 2024.Tests/2024.Tests.csproj --no-build --verbosity normal
