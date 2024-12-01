@@ -1,8 +1,10 @@
 # Advent of Code 2024
 Welcome to my repository, which contains my attempts at solving the 
-puzzles of [Advent of Code 2024](https://adventofcode.com/2024/). 
-This year I will try to better document my process and things that
-I have learned. Good luck to everyone participating this year!
+puzzles of [Advent of Code 2024]. This year I will try to better document 
+my process and things that I have learned. Good luck to everyone 
+participating this year!
+
+[Advent of Code 2024]: https://adventofcode.com/2024/
 
 ## New things I've learned
 Anything that I learn, and anything that I forgot and now discover,
@@ -35,4 +37,13 @@ publication directory.
     <Copy SourceFiles="@(PuzzleInputFiles)" DestinationFolder="$(OutputPath)%(RecursiveDir)" />
 </Target>
 ```
+
+### LINQ Zip method
+
+For [Day 1] I needed a way to process two sets of data simultaneously. 
+Apparently that is exactly what [Zip] does!
+
+[Day 1]: https://adventofcode.com/2024/day/1
+[Zip]: https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/projection-operations#zip
+
 
