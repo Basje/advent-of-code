@@ -1,6 +1,4 @@
-﻿using Basje.AdventOfCode.Y2024.Input;
-
-namespace Basje.AdventOfCode.Y2024.D01;
+﻿namespace Basje.AdventOfCode.Y2024.D01;
 
 public class Day01 : Solution<(int Left, int Right)[]>
 {
