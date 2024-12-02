@@ -4,6 +4,9 @@
 .*
 !.gitignore
 
+# Include GitHub configurations
+!.github
+
 # User-specific files
 *.suo
 *.user
