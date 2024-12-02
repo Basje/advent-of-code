@@ -44,7 +44,7 @@
             return Path.Combine(
                 repositoryDirectory,
                 //year.ToString(),
-                $"{paddedDay}",
+                $"D{paddedDay}",
                 "input.txt"
             );
         }
