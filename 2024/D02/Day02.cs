@@ -15,84 +15,56 @@ public class Day02 : Solution<List<List<int>>>
     protected override object SolvePart1(List<List<int>> reports)
     {
         return reports
-            .Select(report => report.Steps().ToList())
-            .Count(steps => steps.AllInRange() && (steps.AllIncreasing() || steps.AllDecreasing()));
+            .Count(report => report.Steps().AreSafe());
     }
 
     protected override object SolvePart2(List<List<int>> reports)
     {
         var safeReports = reports
-            .Where(report =>
-            {
-                var steps = report.Steps().ToList();
-                return steps.AllInRange() && (steps.AllIncreasing() || steps.AllDecreasing());
-            })
-            .ToList();
+            .Where(report => report.Steps().AreSafe())
+            .ToArray();
 
-        var unsafeReports = reports.Except(safeReports).ToList();
-        
-        unsafeReports.ForEach(report =>
-        {
-            var wrongStep = report.Steps().ToList().FindIndex((number) => report.IsIncreasing() ? number is < 1 or > 3 : number is < -3 or > -1);
+        var fixedReports = reports
+            .Except(safeReports)
+            .Select(report => (Report: report, Steps: report.Steps(), Increasing: report[^1] > report[0]))
+            .Select(data => (Report: data.Report, WrongStep: data.FindFirstWrongStep()))
+            .Count(data => data.Report.CompensateForStep(data.WrongStep).Any(report => report.Steps().AreSafe()));
 
-            for (var index = Math.Max(0, wrongStep - 1); index < Math.Min(wrongStep + 2, report.Count); index++)
-            {
-                var filteredReport = report.ToList();
-                filteredReport.RemoveAt(index);
-                var steps = filteredReport.Steps().ToList();
-
-                if (steps.AllInRange() && (steps.AllIncreasing() || steps.AllDecreasing()))
-                {
-                    safeReports.Add(report);
-                    break;
-                }
-            }
-        });
-
-        return safeReports.Count;
+        return safeReports.Length + fixedReports;
     }
 }
 
 internal static class Day02Extensions
 {
-    internal static bool AllInRange(this List<int> numbers)
+    internal static bool AreSafe(this IEnumerable<int> steps)
     {
-        return numbers.Count(number => Math.Abs(number) is >= 1 and <= 3) == numbers.Count;
-    }
-    
-    internal static bool AllDecreasing(this List<int> numbers)
-    {
-        return numbers.CountDecreasing() == numbers.Count;
-    }
-    
-    internal static bool AllIncreasing(this List<int> numbers)
-    {
-        return numbers.CountIncreasing() == numbers.Count;
+        return steps.All(n => n is >= 1 and <= 3)
+            || steps.All(n => n is >= -3 and <= -1);
     }
 
-    internal static IEnumerable<int> Steps(this IEnumerable<int> numbers)
+    internal static int FindFirstWrongStep(this (List<int> Report, List<int> Steps, bool Increasing) data)
     {
-        foreach (var levelSet in numbers.SlidingWindow(2))
-        {
-            var left = levelSet[0];
-            var right = levelSet[1];
-
-            yield return right - left;
-        }
+        return data
+            .Steps
+            .FindIndex((number) => data.Increasing  ? number is < 1 or > 3 : number is < -3 or > -1);
     }
 
-    internal static bool IsIncreasing(this List<int> numbers)
+    internal static List<int>[] CompensateForStep(this List<int> report, int position)
     {
-        return numbers[1] > numbers[0];
-    }
-    
-    private static int CountDecreasing(this List<int> numbers)
-    {
-        return numbers.Count(number => number < 0);
+        return 
+        [
+            // Create new reports without the values that cause the
+            // wrong step at "position" in an attempt to compensate.
+            [..report[..position], ..report[(position+1)..]],
+            [..report[..(position+1)], ..report[(position+2)..]]
+        ];
     }
 
-    private static int CountIncreasing(this List<int> numbers)
+    internal static List<int> Steps(this IEnumerable<int> numbers)
     {
-        return numbers.Count(number => number > 0);
+        return numbers
+            .Zip(numbers.Skip(1), Tuple.Create)
+            .Select(tuple => tuple.Item2 - tuple.Item1)
+            .ToList();
     }
 }

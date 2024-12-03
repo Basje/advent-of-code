@@ -39,4 +39,24 @@ public static class Day02Tests
 
         answer.Should().Be(4);
     }
+
+    [Fact]
+    public static void Part2EdgeCases()
+    {
+        var solution = new Day02();
+        
+        // These edge cases are the ones that tripped 
+        // up my initial solution. It anticipates the 
+        // fact that increase or decrease are determined
+        // using the first two numbers, and then go
+        // into the other direction. Well played, Eric.
+        const string input = """
+                             88 86 88 89 90 93 95
+                             47 50 47 46 44 41 38 37
+                             """;
+
+        var answer = solution.SolvePart2(input);
+
+        answer.Should().Be(2);
+    }
 }
