@@ -24,57 +24,35 @@ public class Day05 : Solution<(string[] PageOrderingRules, string[][] PagesPerUp
 
     protected override object SolvePart1((string[] PageOrderingRules, string[][] PagesPerUpdate) input)
     {
-        var middlePageSum = 0;
-
-        foreach (var update in input.PagesPerUpdate)
-        {
-            var valid = true; 
-            
-            for (var current = 0; valid && current < update.Length; current++)
-            {
-                for (var next = current + 1; valid && next < update.Length; next++)
-                {
-                    var check = $"{update[next]}|{update[current]}";
-                    if (input.PageOrderingRules.Contains(check))
-                    {
-                        valid = false;
-                        middlePageSum += int.Parse(update[(update.Length - 1) / 2]);
-                    }
-                }
-            }
-        }
-
-        return middlePageSum;
+        return input
+            .PagesPerUpdate
+            .Where(pages => pages.AreSorted(input.PageOrderingRules.ToComparer()))
+            .Select(pages => int.Parse(pages[(pages.Length - 1) / 2]))
+            .Sum();
     }
 
     protected override object SolvePart2((string[] PageOrderingRules, string[][] PagesPerUpdate) input)
     {
-        var middlePageSum = 0;
-        var comparer = CreateComparer(input.PageOrderingRules);
+        var comparer = input.PageOrderingRules.ToComparer();
 
-        foreach (var update in input.PagesPerUpdate)
-        {
-            if (AreSorted(update, comparer)) continue;
-
-            var newUpdate = update.OrderBy(update => update, comparer).ToArray();
-            var middle = int.Parse(newUpdate[(newUpdate.Length - 1) / 2]);
-            middlePageSum += middle;
-        }
-
-        return middlePageSum;
+        return input
+            .PagesPerUpdate
+            .Where(pages => !pages.AreSorted(comparer))
+            .Select(pages => pages.OrderBy(p => p, comparer).ToArray())
+            .Select(pages => int.Parse(pages[(pages.Length - 1) / 2]))
+            .Sum();
     }
-    
-    private Comparer<string> CreateComparer(string[] order)
+}
+
+internal static class Day05Extensions
+{
+    internal static Comparer<string> ToComparer(this string[] order)
     {
-        return Comparer<string>.Create((left, right) =>
-        {
-            var check = $"{left}|{right}";
-            return order.Contains(check) ? -1 : 1;
-        });
+        return Comparer<string>.Create((left, right) => order.Contains($"{left}|{right}") ? -1 : 1);
     }
 
-    private bool AreSorted(string[] updates, Comparer<string> comparer)
+    internal static bool AreSorted(this string[] pages, Comparer<string> comparer)
     {
-        return Enumerable.SequenceEqual(updates, updates.OrderBy(update => update, comparer));
+        return pages.SequenceEqual(pages.OrderBy(update => update, comparer));
     }
 }
