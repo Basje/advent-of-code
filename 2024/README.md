@@ -46,4 +46,27 @@ Apparently that is exactly what [Zip] does!
 [Day 1]: https://adventofcode.com/2024/day/1
 [Zip]: https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/projection-operations#zip
 
+### Range operators
 
+When working on [Day 2] I was reminded of [indices and ranges] and had some 
+fun experimenting with them to get to a proper solution.
+
+[Day 2]: https://adventofcode.com/2024/day/2
+[indices and ranges]: https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes
+
+### Enumerable.SequenceEqual()
+
+For [Day 5] I started with a naive approach, which was working for 
+part 1 but not part 2. I ended up having to rewrite the second part and
+while I was researching I encountered [SequenceEqual()] in a solution
+from [Dávid Németh]
+
+[Day 5]: https://adventofcode.com/2024/day/5
+[SequenceEqual()]: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequenceequal
+[Dávid Németh]: https://github.com/encse/adventofcode/blob/master/2024/Day05/Solution.cs
+
+### Comparers
+
+Also for [Day 5], brushing up on custom comparers was needed. I knew
+of them (and even used them in the past for other AoC puzzles) but somehow
+forgot. Also credit to [Dávid Németh]

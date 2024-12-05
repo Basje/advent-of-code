@@ -50,38 +50,31 @@ public class Day05 : Solution<(string[] PageOrderingRules, string[][] PagesPerUp
     protected override object SolvePart2((string[] PageOrderingRules, string[][] PagesPerUpdate) input)
     {
         var middlePageSum = 0;
+        var comparer = CreateComparer(input.PageOrderingRules);
 
         foreach (var update in input.PagesPerUpdate)
         {
-            var newUpdate = update;
-            var valid = true; 
-            
-            for (var current = 0; current < newUpdate.Length; current++)
-            {
-                var corrected = false;
-                
-                for (var next = current + 1; !corrected && next < newUpdate.Length; next++)
-                {
-                    var currentNumber = newUpdate[current];
-                    var nextNumber = newUpdate[next];
-                    var check = $"{nextNumber}|{currentNumber}";
-                    if (input.PageOrderingRules.Contains(check))
-                    {
-                        valid = false;
-                        corrected = true;
+            if (AreSorted(update, comparer)) continue;
 
-                        newUpdate = [..newUpdate[..current], nextNumber, ..newUpdate[current..next],..newUpdate[(next+1)..]];
-                        current = 0;
-                    }
-                }
-            }
-
-            if (valid) continue;
-            
+            var newUpdate = update.OrderBy(update => update, comparer).ToArray();
             var middle = int.Parse(newUpdate[(newUpdate.Length - 1) / 2]);
             middlePageSum += middle;
         }
 
         return middlePageSum;
+    }
+    
+    private Comparer<string> CreateComparer(string[] order)
+    {
+        return Comparer<string>.Create((left, right) =>
+        {
+            var check = $"{left}|{right}";
+            return order.Contains(check) ? -1 : 1;
+        });
+    }
+
+    private bool AreSorted(string[] updates, Comparer<string> comparer)
+    {
+        return Enumerable.SequenceEqual(updates, updates.OrderBy(update => update, comparer));
     }
 }
