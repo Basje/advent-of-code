@@ -1,6 +1,4 @@
-﻿using Basje.AdventOfCode.Y2024.Toolbox.Grid;
-
-namespace Basje.AdventOfCode.Y2024.D07;
+﻿namespace Basje.AdventOfCode.Y2024.D07;
 
 public class Day07 : Solution<long[][]>
 {
