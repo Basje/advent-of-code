@@ -1,0 +1,36 @@
+name: Advent of Code 2025
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 2025/**
+      - 2025.Tests/**
+
+  pull_request:
+    paths:
+      - 2025/**
+      - 2025.Tests/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0'
+          
+      - name: Restore dependencies
+        run: dotnet restore Advent-of-Code-2025.sln
+        
+      - name: Build project
+        run: dotnet build Advent-of-Code-2025.sln --no-restore
+        
+      - name: Run tests
+        run: dotnet test 2025.Tests/2025.Tests.csproj --no-build --verbosity normal
