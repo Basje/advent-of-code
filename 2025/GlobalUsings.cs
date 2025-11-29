@@ -1,0 +1,1 @@
+﻿global using Basje.AdventOfCode.Y2025.Input;
