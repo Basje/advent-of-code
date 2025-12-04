@@ -33,7 +33,6 @@ public static class Day03Tests
         
         var answer = solution.SolvePart2(input);
         
-        // answer.ShouldBe(3121910778619);
-        answer.ShouldBe('X');
+        answer.ShouldBe(3121910778619);
     }
 }
