@@ -47,7 +47,7 @@ foreach (var type in solutions)
     Console.ForegroundColor = ConsoleColor.White;
     Console.WriteLine(answer2);
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine($"{elapsedTime.Microseconds/1000f:N3} ms");
+    Console.WriteLine($"{elapsedTime.TotalMicroseconds/1000f:N3} ms");
     Console.WriteLine();
 }
 
