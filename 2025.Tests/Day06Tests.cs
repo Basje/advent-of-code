@@ -12,7 +12,7 @@ public static class Day06Tests
                              123 328  51 64 
                               45 64  387 23 
                                6 98  215 314
-                             *   +   *   + 
+                             *   +   *   +  
                              """;
         
         var answer = solution.SolvePart1(input);
@@ -25,11 +25,14 @@ public static class Day06Tests
     {
         var solution = new Day06();
         const string input = """
-                             X
+                             123 328  51 64 
+                              45 64  387 23 
+                               6 98  215 314
+                             *   +   *   +  
                              """;
         
         var answer = solution.SolvePart2(input);
         
-        answer.ShouldBe("X");
+        answer.ShouldBe(3263827);
     }
 }

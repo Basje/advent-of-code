@@ -2,19 +2,22 @@
 
 namespace Basje.AdventOfCode.Y2025.D06;
 
-public class Day06 : Solution<string[][]>
+public class Day06 : Solution<string[]>
 {
-    protected override string[][] ParseInput(string input)
+    protected override string[] ParseInput(string input)
     {
         return input
             .PerLine()
             .IgnoreEmptyLines()
-            .Select(line => Regex.Split(line, @"\s+").IgnoreEmptyLines().ToArray())
             .ToArray();
     }
     
-    protected override object SolvePart1(string[][] problems)
+    protected override object SolvePart1(string[] lines)
     {
+        var problems = lines
+            .Select(line => Regex.Split(line, @"\s").IgnoreEmptyLines().ToArray())
+            .ToArray();
+
         var operators = problems.Last();
         var numbers = problems
             .Take(problems.Length - 1)
@@ -38,8 +41,45 @@ public class Day06 : Solution<string[][]>
         return total.Sum();
     }
 
-    protected override object SolvePart2(string[][] problems)
+    protected override object SolvePart2(string[] lines)
     {
-        return "X";
+        var grandTotal = 0L;
+        var total = 0L;
+        var operators = lines.Last();
+        var numbers = lines.Take(lines.Length - 1).ToArray();
+        var op = operators[0];
+
+        for (var i = 0; i < operators.Length; i++)
+        {
+            var number = 0;
+
+            if (operators[i] != ' ')
+            {
+                grandTotal += total;
+                total = 0;
+                op = operators[i];
+            }
+
+            for (var j = 0; j < numbers.Length; j++)
+            {
+                if (numbers[j][i] != ' ')
+                {
+                    number = number * 10 + (numbers[j][i] - '0');
+                }
+            }
+
+            total = (op, total, number) switch
+            {
+                ('+', _, _) => total + number,
+                ('*', 0, _) => number,
+                ('*', _, 0) => total,
+                ('*', _, _) => total * number,
+                _ => throw new Exception($"Unknown operator {op}")
+            };
+        }
+
+        grandTotal += total;
+
+        return grandTotal;
     }
 }
