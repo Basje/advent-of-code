@@ -59,6 +59,47 @@ public class Day07 : Solution<char[][]>
 
     protected override object SolvePart2(char[][] diagram)
     {
-        return "X";
+        var currentBeamCount = new long[diagram[0].Length];
+        var previousBeamCount = new long[diagram[0].Length];
+        
+        for (var y = 0; y < diagram.Length; y+=2)
+        {
+            for (var x = 0; x < diagram[y].Length; x++)
+            {
+                if (y == 0)
+                {
+                    // Search where tachyon beam enters the manifold
+                    if (diagram[y][x] == 'S')
+                    {
+                        diagram[y + 1][x] = '|';
+                        currentBeamCount[x] = 1;
+                        break;
+                    }
+                    continue;
+                }
+                
+                if (diagram[y][x] == '^' && diagram[y - 1][x] == '|')
+                {
+                    diagram[y + 1][x - 1] = '|';
+                    diagram[y + 1][x + 1] = '|';
+                    
+                    currentBeamCount[x - 1] += previousBeamCount[x];
+                    currentBeamCount[x + 1] += previousBeamCount[x];
+
+                }
+                
+                if (diagram[y][x] == '.' && diagram[y - 1][x] == '|')
+                {
+                    diagram[y + 1][x] = '|';
+                    
+                    currentBeamCount[x] += previousBeamCount[x];
+                }
+            }
+            
+            previousBeamCount = currentBeamCount;
+            currentBeamCount = new long[diagram[0].Length];
+        }
+
+        return previousBeamCount.Sum();
     }
 }
